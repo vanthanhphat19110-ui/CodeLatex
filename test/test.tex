@@ -1,9 +1,21 @@
-\documentclass[12pt, a4paper]{article}
+\documentclass[a4paper]{article}
+
+% =================================================
+%               USEPACKAGE
+% =================================================
 \usepackage[utf8]{vietnam} % Hỗ trợ tiếng Việt
 \usepackage{amsmath} % Hỗ trợ Toán học
 \usepackage{xcolor} % Hỗ trợ màu sắc
+\usepackage{fontspec} % Hỗ trợ font chữ
+\setmainfont{Times New Roman}
+\usepackage[12pt]{fontsize}
 \usepackage{setspace}
-\onehalfspacing
+\setstretch{1.5}
+\setlength{\parship}{2}
+\usepackage[
+    vmargin = 2cm
+    hmargin = 2cm
+]{geometry}
 
 \title{Đồ án lý thuyết WLAN}
 \author{Nhóm 06}
@@ -38,7 +50,6 @@ của con trỏ hay tham chiếu. Nếu đó không phải là “ảo”, phư�
 được chọn tùy theo kiểu khai báo của con trỏ hay tham chiếu. Hàm ảo cho phép chương trình gọi tới những
 phương thức không nhất thiết phải tồn tại vào thời điểm biên dịch mã.
 
-\begin{doublespace}
 Trong Lập trình hướng đối tượng, khi một lớp kế thừa từ lớp cơ sở, một đối tượng của lớp thừa kế đó có thể
 được tham chiếu đến thông qua một con trỏ hay tham chiếu của kiểu lớp cha thay vì kiểu của lớp thừa kế đó.
 Nếu có phương thức nào của lớp cơ sở bị ghi đè bởi lớp thừa kế, phương thức thực sự được gọi bằng một tham
@@ -51,7 +62,6 @@ lớp thừa kế nhiều nhất được gọi tùy theo kiểu thực sự mà
 của con trỏ hay tham chiếu. Nếu đó không phải là “ảo”, phương thức sẽ được giải quyết “sớm” và hàm gọi
 được chọn tùy theo kiểu khai báo của con trỏ hay tham chiếu. Hàm ảo cho phép chương trình gọi tới những
 phương thức không nhất thiết phải tồn tại vào thời điểm biên dịch mã.
-\end{doublespace}
 
 \subsection{Albert Einstein}
 \begin{itemize}
