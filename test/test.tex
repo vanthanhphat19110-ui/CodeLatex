@@ -38,6 +38,21 @@ của con trỏ hay tham chiếu. Nếu đó không phải là “ảo”, phư�
 được chọn tùy theo kiểu khai báo của con trỏ hay tham chiếu. Hàm ảo cho phép chương trình gọi tới những
 phương thức không nhất thiết phải tồn tại vào thời điểm biên dịch mã.
 
+\begin{doublespace}
+Trong Lập trình hướng đối tượng, khi một lớp kế thừa từ lớp cơ sở, một đối tượng của lớp thừa kế đó có thể
+được tham chiếu đến thông qua một con trỏ hay tham chiếu của kiểu lớp cha thay vì kiểu của lớp thừa kế đó.
+Nếu có phương thức nào của lớp cơ sở bị ghi đè bởi lớp thừa kế, phương thức thực sự được gọi bằng một tham
+chiếu hay con trỏ có thể được liên kết “sớm” (bởi trình biên dịch) theo như kiểu định nghĩa của con trỏ hay
+tham chiếu, hay “trễ” (ví dụ như bởi hệ thống thời gian chạy của ngôn ngữ) theo như kiểu thực sự của đối
+tượng được tham chiếu tới.
+
+Hàm ảo giải quyết trường hợp “trễ”. Nếu hàm được gọi là “ảo” trong lớp cơ sở, sự hiện thực của hàm trong
+lớp thừa kế nhiều nhất được gọi tùy theo kiểu thực sự mà đối tượng đó tham chiếu tới, bất kể kiểu khai báo
+của con trỏ hay tham chiếu. Nếu đó không phải là “ảo”, phương thức sẽ được giải quyết “sớm” và hàm gọi
+được chọn tùy theo kiểu khai báo của con trỏ hay tham chiếu. Hàm ảo cho phép chương trình gọi tới những
+phương thức không nhất thiết phải tồn tại vào thời điểm biên dịch mã.
+\end{doublespace}
+
 \subsection{Albert Einstein}
 \begin{itemize}
     \item Mục 1

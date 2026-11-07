@@ -1,0 +1,1049 @@
+﻿% ! TEX program = xelatex
+\documentclass[a4paper]{article}
+
+% ==========================================
+% 1. ENCODING, LOCALE, AND FONT SETTINGS
+% ==========================================
+\usepackage[vietnamese]{babel}
+\usepackage{fontspec}
+\setmainfont{Times New Roman} % Set custom main font
+\usepackage[fontsize=12pt]{fontsize} % Set custom font size
+
+% ==========================================
+% 2. PAGE LAYOUT AND SPACING
+% ==========================================
+\usepackage[top=2cm, bottom=2cm, left=3cm, right=2cm, headheight=1.5cm, headsep=0.5cm, footskip=1cm]{geometry}
+\usepackage{setspace}
+\setstretch{1.2} % Set line spacing to 1.2
+\setlength{\parskip}{3pt} % Set paragraph spacing
+\usepackage{indentfirst}
+\usepackage{enumitem}
+
+% ==========================================
+% 3. ESSENTIAL PACKAGES
+% ==========================================
+% Math
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+
+% Tables
+\usepackage{tabularx}
+\usepackage{makecell}
+\usepackage{array}
+\usepackage{hhline}
+\usepackage{booktabs}
+\usepackage{longtable}
+
+% Figures & Graphics
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{float}
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\usepackage{caption}
+
+% Colors and Boxes
+\usepackage{xcolor}
+\usepackage[most]{tcolorbox}
+
+% Code Listings
+\usepackage{listings}
+
+% Utilities
+\usepackage{textcase}
+\usepackage{fancyvrb}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xurl}
+
+% ==========================================
+% 4. CODE HIGHLIGHTING & STYLING (MIPS)
+% ==========================================
+\definecolor{mipsblue}{RGB}{0, 70, 160}
+\definecolor{mipsgreen}{RGB}{0, 128, 40}
+\definecolor{mipspurple}{RGB}{130, 20, 160}
+\definecolor{mipscyan}{RGB}{0, 120, 150}
+\definecolor{mipsgray}{RGB}{100, 100, 100}
+\definecolor{mipsred}{RGB}{180, 30, 30}
+\definecolor{mipsbg}{RGB}{248, 250, 252}
+\definecolor{boxborder}{RGB}{200, 215, 230}
+
+\lstdefinelanguage{MIPS}{
+  keywords={add, addi, addiu, addu, and, andi, b, beq, beqz, bge, bgeu, bgez, bgt, bgtu, bgtz, ble, bleu, blez, blt, bltu, bltz, bne, bnez, div, divu, j, jal, jalr, jr, la, lb, lbu, lh, lhu, li, lui, lw, mfc0, mfhi, mflo, move, mtc0, mthi, mtlo, mul, mult, multu, nop, nor, not, or, ori, rem, remu, ror, rol, sb, seq, sge, sgeu, sgt, sgtu, sh, sle, sleu, sll, sllv, slt, slti, sltiu, sltu, sne, sra, srav, srl, srlv, sub, subu, sw, syscall, xor, xori},
+  morekeywords=[2]{.data, .text, .word, .asciiz, .ascii, .space, .byte, .half, .align, .globl},
+  morekeywords=[3]{\$zero, \$at, \$v0, \$v1, \$a0, \$a1, \$a2, \$a3, \$t0, \$t1, \$t2, \$t3, \$t4, \$t5, \$t6, \$t7, \$s0, \$s1, \$s2, \$s3, \$s4, \$s5, \$s6, \$s7, \$t8, \$t9, \$k0, \$k1, \$gp, \$sp, \$fp, \$ra, \$0, \$1, \$2, \$3, \$4, \$5, \$6, \$7, \$8, \$9, \$10, \$11, \$12, \$13, \$14, \$15, \$16, \$17, \$18, \$19, \$20, \$21, \$22, \$23, \$24, \$25, \$26, \$27, \$28, \$29, \$30, \$31},
+  sensitive=false,
+  morecomment=[l]{\#},
+  morestring=[b]",
+}
+
+\lstdefinestyle{mipsstyle}{
+  language=MIPS,
+  backgroundcolor=\color{mipsbg},
+  basicstyle=\ttfamily\small,
+  commentstyle=\color{mipsgreen}\itshape,
+  keywordstyle=\bfseries\color{mipsblue},
+  keywordstyle=[2]\bfseries\color{mipspurple},
+  keywordstyle=[3]\bfseries\color{mipscyan},
+  stringstyle=\color{mipsred},
+  numbers=left,
+  numberstyle=\tiny\color{mipsgray},
+  stepnumber=1,
+  numbersep=10pt,
+  showstringspaces=false,
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=4,
+  frame=single,
+  frameround=tttt,
+  rulecolor=\color{boxborder},
+  xleftmargin=1.5em,
+  framexleftmargin=1.5em
+}
+
+% Custom boxes
+\newtcolorbox{problembox}[1]{
+  colback=blue!3!white,
+  colframe=blue!60!black,
+  fonttitle=\bfseries,
+  title={#1},
+  arc=2mm,
+  boxrule=0.8pt,
+  left=8pt, right=8pt, top=6pt, bottom=6pt
+}
+
+\newtcolorbox{outputbox}[1][]{
+  colback=black!2!white,
+  colframe=gray!60!black,
+  fonttitle=\bfseries\small,
+  title={Kết quả thực thi},
+  arc=1.5mm,
+  boxrule=0.6pt,
+  left=8pt, right=8pt, top=5pt, bottom=5pt
+}
+
+\newtcolorbox{answerbox}[1][]{
+  colback=green!4!white,
+  colframe=green!50!black,
+  fonttitle=\bfseries,
+  title={Đáp số},
+  arc=1.5mm,
+  boxrule=0.8pt,
+  left=8pt, right=8pt, top=5pt, bottom=5pt
+}
+
+% ==========================================
+% 5. DOCUMENT CUSTOMIZATION
+% ==========================================
+% Table of Contents Formatting
+\usepackage{tocloft}
+\renewcommand{\cftsecfont}{\bfseries}
+\renewcommand{\cftsecaftersnum}{.}
+\renewcommand{\cftsubsecfont}{\bfseries\itshape}
+\renewcommand{\cftsubsecaftersnum}{.}
+\renewcommand{\cftsubsubsecfont}{\itshape}
+\renewcommand{\cftsubsubsecaftersnum}{.}
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{2}
+
+% Section Titles Formatting
+\usepackage[explicit]{titlesec}
+
+\titleformat{\section}{\bfseries\raggedright\Large}
+  {\hyperlink{mucluc}{\thesection.}}
+  {0.8em}
+  {\hyperlink{mucluc}{#1}}
+
+\titleformat{\subsection}{\bfseries\itshape\raggedright\large}
+  {\hyperlink{mucluc}{\thesubsection.}}
+  {0.8em}
+  {\hyperlink{mucluc}{#1}}
+
+\titleformat{\subsubsection}{\itshape\filright\normalsize}
+  {\hyperlink{mucluc}{\thesubsubsection.}}
+  {0.8em}
+  {\hyperlink{mucluc}{#1}}
+\titlespacing{\subsubsection}{0.5cm}{*1.2}{*1.2}
+
+% Numbering Style
+\renewcommand{\thesection}{\arabic{section}}
+\renewcommand{\thesubsection}{\thesection.\arabic{subsection}}
+\renewcommand{\thesubsubsection}{\alph{subsubsection}}
+
+% Figure and Table Numbering & Captions
+\numberwithin{figure}{section}
+\renewcommand{\thefigure}{\thesection.\arabic{figure}}
+\numberwithin{table}{section}
+\renewcommand{\thetable}{\thesection.\arabic{table}}
+
+\captionsetup[figure]{
+    name=Hình,
+    labelsep=colon,
+    font=bf,
+    justification=centering
+}
+\captionsetup[table]{
+    name=Bảng,
+    labelsep=colon,
+    font=bf,
+    position=top,
+    justification=raggedright,
+    singlelinecheck=false
+}
+
+% Header and Footer
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+
+\makeatletter
+\newcommand{\sotranghienthi}{%
+    \@ifundefined{r@LastPage}{\thepage}{\thepage/\pageref{LastPage}}%
+}
+\makeatother
+
+\pagestyle{fancy}
+\fancyhead{} % clear all header fields
+\fancyhead[L]{
+ \begin{tabular}{rl}
+    \begin{picture}(25,15)(0,0)
+    \put(0,-8){\includegraphics[width=10mm, height=10mm]{image/hcmut_logo.png}}
+    \end{picture}&
+    \begin{tabular}{l}
+        \textbf{  Trường Đại Học Bách Khoa - Đại học Quốc gia TP.HCM }\\
+        \textbf{  Khoa Khoa Học và Kỹ Thuật Máy Tính}
+    \end{tabular}   
+ \end{tabular}
+}
+\fancyhead[R]{}
+\fancyfoot{} % clear all footer fields
+\fancyfoot[L]{\scriptsize Báo cáo Thực hành Kiến trúc Máy tính (CO2008) - Lab 1}
+\fancyfoot[R]{\scriptsize Trang \sotranghienthi}
+\renewcommand{\headrulewidth}{0.3pt}
+\renewcommand{\footrulewidth}{0.3pt}
+
+\makeatletter
+\let\ps@plain\ps@fancy
+\makeatother
+
+\begin{document}
+
+% ==========================================
+% TRANG BÌA (COVER PAGE)
+% ==========================================
+\begin{titlepage}
+    \thispagestyle{empty}
+    \begin{tikzpicture}[remember picture, overlay]
+        % Outer border
+        \draw[line width=1.5pt, blue!70!black] 
+            ($(current page.north west) + (2.0cm, -1.8cm)$) 
+            rectangle 
+            ($(current page.south east) + (-1.5cm, 1.8cm)$);
+        % Inner border
+        \draw[line width=0.5pt, blue!50!black] 
+            ($(current page.north west) + (2.1cm, -1.9cm)$) 
+            rectangle 
+            ($(current page.south east) + (-1.6cm, 1.9cm)$);
+    \end{tikzpicture}
+
+    \begin{center}
+        \textbf{\large ĐẠI HỌC QUỐC GIA THÀNH PHỐ HỒ CHÍ MINH}\\[0.15cm]
+        \textbf{\large TRƯỜNG ĐẠI HỌC BÁCH KHOA}\\[0.15cm]
+        \textbf{\large KHOA KHOA HỌC VÀ KỸ THUẬT MÁY TÍNH}\\[0.1cm]
+        \rule{0.6\textwidth}{0.8pt}\\[1.2cm]
+
+        % Logo Bách Khoa
+        \includegraphics[width=40mm]{image/hcmut_logo.png}\\[1.2cm]
+
+        \textbf{\Large BÁO CÁO BÀI TẬP THỰC HÀNH}\\[0.3cm]
+        \textbf{\large MÔN HỌC: THỰC HÀNH KIẾN TRÚC MÁY TÍNH (CO2008)}\\[1.2cm]
+
+        \begin{tcolorbox}[
+            colback=blue!6!white,
+            colframe=blue!75!black,
+            width=0.92\textwidth,
+            arc=3mm,
+            boxrule=1.2pt,
+            halign=center
+        ]
+            \vspace{0.25cm}
+            {\bfseries\Huge LAB 1}\\[0.35cm]
+            {\bfseries\LARGE ARITHMETIC INSTRUCTIONS}\\[0.25cm]
+        \end{tcolorbox}
+
+        \vspace{1.5cm}
+
+        % Khung thông tin sinh viên & giảng viên
+        \begin{minipage}{0.85\textwidth}
+            \setstretch{1.3}
+            \begin{tabular}{p{5.5cm}l}
+                \textbf{Giảng viên hướng dẫn:} & Tôn Huỳnh Long \\
+                \textbf{Lớp môn học:} & L02 \\
+                \textbf{Sinh viên thực hiện:} & \textbf{Phạm Trọng Hoàng} \\
+                \textbf{Mã số sinh viên (MSSV):} & \textbf{2510080} \\
+                \textbf{Học kỳ thực hiện:} & HK261 (2026 -- 2027) \\
+                \textbf{Ngày nộp bài:} & 13/10/2026
+            \end{tabular}
+        \end{minipage}
+
+        \vfill
+
+        \textbf{\large TP. HỒ CHÍ MINH, THÁNG 10/2026}
+    \end{center}
+\end{titlepage}
+
+\pagenumbering{roman}
+
+% ==========================================
+% MỤC LỤC
+% ==========================================
+\renewcommand{\contentsname}{\centerline{\LARGE MỤC LỤC}}
+\hypertarget{mucluc}{}
+\tableofcontents
+
+\pagebreak
+\pagenumbering{arabic}
+
+% ==========================================
+% EXERCISE 1
+% ==========================================
+\section{Exercise 1}
+
+\begin{problembox}{Exercise 1}
+Write a MIPS program that takes a name as a string and print out a ``Hello <name>!''.\\
+\textbf{Ví dụ:} Nếu đầu vào là \texttt{John}, kết quả hiển thị trên terminal là: \texttt{Hello, John!}
+\end{problembox}
+
+\subsection{Ý tưởng và giải thích cách giải qua code}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Ý tưởng giải quyết:}
+    Khi người dùng nhập tên bằng hàm \texttt{syscall 8}, chương trình sẽ lưu chuỗi ký tự kèm theo cả ký tự xuống dòng \texttt{'\textbackslash n'} (mã ASCII là 10) trước khi kết thúc bằng ký tự rỗng \texttt{'\textbackslash 0'}. Vì vậy, nếu in ngay dấu \texttt{"!"} sau tên thì nó sẽ bị rớt xuống dòng tiếp theo. Để in đúng dạng \texttt{Hello, <tên>!}, ta chỉ cần tìm vị trí ký tự xuống dòng đó trong chuỗi rồi thay thế nó bằng ký tự kết thúc chuỗi (giá trị 0).
+    
+    \item \textbf{Các bước thực hiện:}
+    \begin{itemize}[leftmargin=*]
+        \item Cấp phát bộ đệm \texttt{name\_buffer} 64 byte để lưu tên người dùng nhập vào.
+        \item Dùng một thanh ghi con trỏ (\texttt{\$t0}) trỏ vào đầu chuỗi rồi duyệt qua từng ký tự bằng lệnh \texttt{lb}.
+        \item Nếu gặp ký tự có mã 10 (\texttt{'\textbackslash n'}), ta dùng lệnh \texttt{sb \$zero, 0(\$t0)} để ghi số 0 đè lên, ngắt chuỗi ngay tại đó rồi dừng lặp.
+        \item Cuối cùng, in lần lượt chuỗi \texttt{"Hello, "}, chuỗi tên vừa xử lý và dấu \texttt{"!"}.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Mã nguồn chương trình}
+\begin{lstlisting}[style=mipsstyle]
+.data
+    prompt:      .asciiz "Enter your name: "
+    hello_msg:   .asciiz "Hello, "
+    name_buffer: .space 64
+    end:         .asciiz "!"
+    
+.text
+main:
+    li   $v0, 4
+    la   $a0, prompt
+    syscall
+    
+    li   $v0, 8
+    la   $a0, name_buffer
+    li   $a1, 64
+    syscall
+    
+    # Duyet con tro tim va thay the '\n' (ASCII 10) bang '\0'
+    la   $t0, name_buffer
+loop:
+    lb   $t1, 0($t0)
+    beqz $t1, exit
+    li   $t2, 10
+    beq  $t1, $t2, replace_nl
+    addi $t0, $t0, 1
+    j    loop
+
+replace_nl:
+    sb   $zero, 0($t0)         # Cat chuoi tai vi tri '\n'
+
+exit:
+    li   $v0, 4
+    la   $a0, hello_msg
+    syscall
+    
+    la   $a0, name_buffer
+    syscall
+    
+    la   $a0, end
+    syscall
+    
+    li   $v0, 10
+    syscall
+\end{lstlisting}
+
+\subsection{Kết quả thực thi}
+\begin{outputbox}
+\texttt{Enter your name: John}\\
+\texttt{Hello, John!}
+\end{outputbox}
+
+\pagebreak
+
+% ==========================================
+% EXERCISE 2
+% ==========================================
+\section{Exercise 2}
+
+\begin{problembox}{Exercise 2}
+Write a MIPS program to allow the user to first input an array with 5 elements. The prompts should be: ``Please input element 0:'', ``Please input element 1:'', etc. Then print the value from the element chosen by the user (Assume the user only input 0 to 4). The prompt for this is: ``Please enter index:''.\\
+\textbf{Ví dụ:} Mảng gồm các phần tử $5, 10, 15, 20, 25$. Nếu nhập index là $1$, terminal xuất $10$. Nếu nhập index là $4$, terminal xuất $25$.
+\end{problembox}
+
+\subsection{Ý tưởng và giải thích cách giải qua code}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Ý tưởng giải quyết:}
+    Mảng gồm 5 số nguyên, mỗi số chiếm 4 byte, do đó ta cấp phát 20 byte bộ nhớ (\texttt{.space 20}). Để truy xuất phần tử thứ $i$ trong mảng, ta cần lấy chỉ số $i$ nhân với 4 để tính khoảng cách (độ lệch) so với ô nhớ đầu tiên. Thay vì dùng phép nhân, ta dùng lệnh dịch trái 2 bit (\texttt{sll}) để tính $i \times 4$ nhanh gọn hơn.
+    
+    \item \textbf{Các bước thực hiện:}
+    \begin{itemize}[leftmargin=*]
+        \item Khởi tạo biến đếm $i = 0$ và điều kiện dừng là 5.
+        \item Trong vòng lặp nhập dữ liệu: mỗi lần lặp, ta nhập 1 số nguyên, tính địa chỉ ô nhớ bằng cách lấy địa chỉ đầu mảng cộng với $(i \ll 2)$, sau đó dùng lệnh \texttt{sw} để lưu số vừa nhập vào mảng rồi tăng $i$ thêm 1.
+        \item Khi nhập đủ 5 phần tử, chương trình yêu cầu người dùng nhập chỉ số cần xem.
+        \item Lấy chỉ số đó nhân 4 (dịch trái 2 bit), cộng với địa chỉ đầu mảng, rồi dùng lệnh \texttt{lw} để đọc giá trị tại ô nhớ đó ra và in lên màn hình.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Mã nguồn chương trình}
+\begin{lstlisting}[style=mipsstyle]
+.data
+    array:        .space 20
+    input_promt:  .asciiz "Please input element "
+    output_promt: .asciiz "Please enter index: "
+    end:          .asciiz ": "
+    
+.text
+main:
+    addi $t1, $zero, 5
+    addi $t0, $zero, 0
+    la   $t7, array
+
+loop:
+    li   $v0, 4
+    la   $a0, input_promt
+    syscall
+    
+    li   $v0, 1
+    move $a0, $t0
+    syscall
+    
+    li   $v0, 4
+    la   $a0, end
+    syscall
+    
+    li   $v0, 5
+    syscall
+    move $t2, $v0
+    
+    # offset = i << 2; array[i] = $t2
+    sll  $s0, $t0, 2
+    la   $a0, array
+    add  $s1, $a0, $s0
+    sw   $t2, 0($s1)
+    
+    addi $t0, $t0, 1
+    beq  $t0, $t1, exit
+    j    loop
+    
+exit:
+    li   $v0, 4
+    la   $a0, output_promt
+    syscall
+    
+    li   $v0, 5
+    syscall
+    move $t3, $v0 
+    
+    # offset = index << 2; doc array[index]
+    sll  $t4, $t3, 2
+    la   $a0, array
+    add  $s2, $a0, $t4
+    lw   $a0, 0($s2)
+    
+    li   $v0, 1
+    syscall
+    
+    li   $v0, 10
+    syscall
+\end{lstlisting}
+
+\subsection{Kết quả thực thi}
+\begin{outputbox}
+\texttt{Please input element 0: 5}\\
+\texttt{Please input element 1: 10}\\
+\texttt{Please input element 2: 15}\\
+\texttt{Please input element 3: 20}\\
+\texttt{Please input element 4: 25}\\
+\texttt{Please enter index: 1}\\
+\texttt{10}
+\end{outputbox}
+
+\begin{outputbox}
+\texttt{Please enter index: 4}\\
+\texttt{25}
+\end{outputbox}
+
+\pagebreak
+
+% ==========================================
+% EXERCISE 3
+% ==========================================
+\section{Exercise 3}
+
+\begin{problembox}{Exercise 3}
+Write a MIPS program to print out the result of $F$:
+\begin{equation*}
+    F = \frac{(a + 10) \times (b - d) \times (c - 2 \times a)}{a + b + c}
+\end{equation*}
+where $a, b, c,$ and $d$ are integers inserted by the user in this exact order. Assume that $a + b + c \neq 0$. The output of division should print both the quotient and the remainder.\\
+The input prompts should be as such: ``Insert a: '', ``Insert b: '', etc.\\
+\textbf{Ví dụ:} Nếu đầu vào là $3, 4, 5, 6$, kết quả xuất ra là: \texttt{F = 2, remainder 2}.
+\end{problembox}
+
+\subsection{Ý tưởng và giải thích cách giải qua code}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Ý tưởng giải quyết:}
+    Biểu thức cần tính có nhiều phép toán ở cả tử số và mẫu số:
+    \begin{equation*}
+        F = \frac{(a + 10) \times (b - d) \times (c - 2a)}{a + b + c}
+    \end{equation*}
+    Cách làm là chia nhỏ biểu thức ra để tính từng phần rồi lưu vào các thanh ghi tạm: tính lần lượt các cụm $(a + 10)$, $(b - d)$, $(c - 2a)$ rồi nhân lại với nhau để ra tử số; sau đó tính tổng $a + b + c$ để ra mẫu số, và cuối cùng lấy tử số chia cho mẫu số.
+    
+    \item \textbf{Các bước thực hiện:}
+    \begin{itemize}[leftmargin=*]
+        \item Nhập lần lượt 4 số nguyên $a, b, c, d$ từ bàn phím và lưu vào các thanh ghi \texttt{\$t0, \$t1, \$t2, \$t3}.
+        \item Tính tử số: dùng lệnh \texttt{addi} tính $(a + 10)$, lệnh \texttt{sub} tính $(b - d)$, và dùng phép dịch trái 1 bit (\texttt{sll}) để tính $2a$ rồi lấy $(c - 2a)$. Sau đó nhân ba giá trị này lại với nhau bằng lệnh \texttt{mul}.
+        \item Tính mẫu số: cộng dồn $a + b + c$ vào một thanh ghi.
+        \item Thực hiện phép chia bằng lệnh \texttt{div}. Trong MIPS, kết quả chia tự động lưu thương số ở thanh ghi \texttt{LO} và số dư ở thanh ghi \texttt{HI}. Ta dùng lệnh \texttt{mflo} để lấy thương số và \texttt{mfhi} để lấy số dư, sau đó in cả hai kết quả ra màn hình.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Mã nguồn chương trình}
+\begin{lstlisting}[style=mipsstyle]
+.data
+    prompt_a: .asciiz "Insert a: "
+    prompt_b: .asciiz "Insert b: "
+    prompt_c: .asciiz "Insert c: "
+    prompt_d: .asciiz "Insert d: "
+    output1:  .asciiz "F = "
+    output2:  .asciiz ", remainder "
+    
+.text
+main:
+    li   $v0, 4
+    la   $a0, prompt_a
+    syscall
+    li   $v0, 5
+    syscall
+    move $t0, $v0              # $t0 = a
+    
+    li   $v0, 4
+    la   $a0, prompt_b
+    syscall
+    li   $v0, 5
+    syscall
+    move $t1, $v0              # $t1 = b
+    
+    li   $v0, 4
+    la   $a0, prompt_c
+    syscall
+    li   $v0, 5
+    syscall
+    move $t2, $v0              # $t2 = c
+    
+    li   $v0, 4
+    la   $a0, prompt_d
+    syscall
+    li   $v0, 5
+    syscall
+    move $t3, $v0              # $t3 = d
+    
+    # Tinh cac thua so cua tu so va mau so
+    addi $s0, $t0, 10          # (a + 10)
+    sub  $s1, $t1, $t3          # (b - d)
+    sll  $t4, $t0, 1           # 2 * a
+    sub  $s2, $t2, $t4          # (c - 2a)
+    add  $s3, $t0, $t1          # a + b
+    add  $s3, $s3, $t2          # Mau so = a + b + c
+    
+    mul  $s4, $s0, $s1
+    mul  $s4, $s4, $s2          # Tu so hoan chinh
+    
+    # Chia va trich xuat thuong/du tu LO/HI
+    div  $s4, $s3
+    mflo $t5                   # Thuong so
+    mfhi $t6                   # Phan du
+    
+    li   $v0, 4
+    la   $a0, output1
+    syscall
+    li   $v0, 1
+    move $a0, $t5
+    syscall
+    
+    li   $v0, 4
+    la   $a0, output2
+    syscall
+    li   $v0, 1
+    move $a0, $t6
+    syscall
+    
+    li   $v0, 10
+    syscall
+\end{lstlisting}
+
+\subsection{Kết quả thực thi}
+\begin{outputbox}
+\texttt{Insert a: 3}\\
+\texttt{Insert b: 4}\\
+\texttt{Insert c: 5}\\
+\texttt{Insert d: 6}\\
+\texttt{F = 2, remainder 2}
+\end{outputbox}
+
+\pagebreak
+
+% ==========================================
+% EXERCISE 4
+% ==========================================
+\section{Exercise 4}
+
+\begin{problembox}{Exercise 4}
+Write a MIPS program to print out the 4-bit binary value of a decimal number. The number should be selected by the user. The input shall be restricted only to a positive integer that is less than 16.\\
+The input prompt should be: ``Please enter a positive integer less than 16: ''.\\
+\textbf{Ví dụ:} Nếu số thập phân là $10$, kết quả xuất ra là: \texttt{Its binary form is: 1010}.
+\end{problembox}
+
+\subsection{Ý tưởng và giải thích cách giải qua code}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Ý tưởng giải quyết:}
+    Để tìm dạng nhị phân 4 bit của một số nguyên nhỏ hơn 16, ta dùng cách chia lấy dư liên tiếp cho 2:
+    \begin{itemize}[leftmargin=*]
+        \item Mỗi lần chia cho 2, phần dư thu được sẽ là một chữ số nhị phân (0 hoặc 1) từ hàng đơn vị trở lên, còn thương số sẽ tiếp tục được đem chia cho đến khi bằng 0.
+        \item Để in kết quả ra màn hình bằng lệnh in số nguyên thông thường (\texttt{syscall 1}), ta ghép các bit này lại thành một số theo hệ thập phân: nhân bit thứ nhất với 1, bit thứ hai với 10, bit thứ ba với 100, bit thứ tư với 1000 rồi cộng dồn lại. Khi in số này ra, các chữ số hiển thị sẽ trông giống hệt như một chuỗi bit nhị phân.
+    \end{itemize}
+    
+    \item \textbf{Các bước thực hiện:}
+    \begin{itemize}[leftmargin=*]
+        \item Nhập một số nguyên dương nhỏ hơn 16 từ bàn phím và lưu vào thanh ghi \texttt{\$s0}.
+        \item Khởi tạo biến lưu kết quả tích lũy bằng 0 và trọng số cơ số 10 ban đầu là 1.
+        \item Trong vòng lặp: lấy số hiện tại chia cho 2 bằng lệnh \texttt{div}, lấy phần dư từ thanh ghi \texttt{HI} nhân với trọng số rồi cộng dồn vào kết quả; sau đó lấy thương số mới từ \texttt{LO} để chia tiếp, đồng thời nhân trọng số lên 10 lần.
+        \item Vòng lặp dừng khi thương số bằng 0. Sau đó in chuỗi thông báo và in số kết quả vừa ghép được ra màn hình.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Mã nguồn chương trình}
+\begin{lstlisting}[style=mipsstyle]
+.data
+    input_promt:  .asciiz "Please enter a positive integer less than 16: "
+    output_promt: .asciiz "Its binary form is: "
+
+.text
+main:
+    li   $v0, 4
+    la   $a0, input_promt
+    syscall
+    
+    li   $v0, 5
+    syscall
+    move $s0, $v0
+    
+    # Khoi tao bo tich luy va trong so co so 10
+    addi $s1, $zero, 1         # Trong so 10^k
+    addi $s7, $zero, 10
+    addi $s2, $zero, 0         # Bo tich luy ket qua
+    li   $v0, 2
+
+loop:
+    # Trich xuat bit du va tich luy theo trong so 10^k
+    div  $s0, $v0
+    mflo $s0                   # Thuong so moi
+    mfhi $s3                   # Bit nhi phan (du = 0 hoac 1)
+    mul  $s4, $s1, $s3
+    add  $s2, $s2, $s4
+    mul  $s1, $s1, $s7          # Tang trong so len 10 lan
+    beqz $s0, exit             # Dung khi thuong so bang 0
+    j    loop
+
+exit:
+    li   $v0, 4
+    la   $a0, output_promt
+    syscall
+    
+    li   $v0, 1
+    move $a0, $s2
+    syscall
+    
+    li   $v0, 10
+    syscall
+\end{lstlisting}
+
+\subsection{Kết quả thực thi}
+\begin{outputbox}
+\texttt{Please enter a positive integer less than 16: 10}\\
+\texttt{Its binary form is: 1010}
+\end{outputbox}
+
+\begin{outputbox}
+\texttt{Please enter a positive integer less than 16: 15}\\
+\texttt{Its binary form is: 1111}
+\end{outputbox}
+
+\pagebreak
+
+% ==========================================
+% EXERCISE 5
+% ==========================================
+\section{Exercise 5}
+
+\begin{problembox}{Exercise 5}
+Write a MIPS program to print the reverse of the elements in an array of 10 integers that you choose.\\
+\textbf{Ví dụ:} Nếu mảng được chọn chứa các phần tử: $1, 2, 5, 8, 12, 44, 3, 9, 0, 10$, kết quả in ra là: \texttt{10, 0, 9, 3, 44, 12, 8, 5, 2, 1}.
+\end{problembox}
+
+\subsection{Ý tưởng và giải thích cách giải qua code}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Ý tưởng giải quyết:}
+    Đề bài yêu cầu in ra mảng 10 số nguyên theo thứ tự đảo ngược. Thay vì phải đổi chỗ các phần tử trực tiếp trong mảng (rất mất công và phức tạp), cách đơn giản nhất là ta vẫn lưu mảng vào bộ nhớ như bình thường, sau đó khi in ra màn hình thì chỉ cần cho biến đếm chạy lùi từ phần tử cuối cùng ($i = 9$) về phần tử đầu tiên ($i = 0$).
+    
+    \item \textbf{Các bước thực hiện:}
+    \begin{itemize}[leftmargin=*]
+        \item Cấp phát mảng gồm 10 số nguyên bằng lệnh \texttt{.space 40} (vì mỗi số nguyên chiếm 4 byte).
+        \item Vòng lặp nhập dữ liệu: cho biến đếm $i$ chạy từ 0 đến 9, nhập từng số từ bàn phím và lưu vào mảng tại ô nhớ tương ứng bằng lệnh \texttt{sw}. Địa chỉ mỗi ô nhớ được tính bằng địa chỉ đầu mảng cộng với $(i \ll 2)$.
+        \item Vòng lặp in đảo ngược: khởi tạo chỉ số bắt đầu từ phần tử cuối cùng là $i = 9$. Ở mỗi lần lặp, ta dịch trái 2 bit để tính độ lệch, dùng lệnh \texttt{lw} nạp giá trị ra rồi in lên màn hình kèm dấu phẩy. Sau đó giảm $i$ đi 1 đơn vị. Vòng lặp dừng lại khi in xong phần tử tại chỉ số 0.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Mã nguồn chương trình}
+\begin{lstlisting}[style=mipsstyle]
+.data
+    array:               .space 40
+    input_promt:         .asciiz "Please input element "
+    array_show:          .asciiz "The predetermined array contains"
+    reversed_array_show: .asciiz "\nThe reversed array is: "
+    comma:               .asciiz ", "
+    end:                 .asciiz ": "
+    
+.text
+main:
+    addi $t1, $zero, 9
+    addi $t0, $zero, 0
+    la   $t7, array
+
+input_loop:
+    li   $v0, 4
+    la   $a0, input_promt
+    syscall
+    li   $v0, 1
+    move $a0, $t0
+    syscall
+    li   $v0, 4
+    la   $a0, end
+    syscall
+    
+    li   $v0, 5
+    syscall
+    move $t2, $v0
+    
+    # offset = i << 2; array[i] = $t2
+    sll  $s0, $t0, 2
+    la   $a0, array
+    add  $s1, $a0, $s0
+    sw   $t2, 0($s1)
+    
+    beq  $t0, $t1, input_exit
+    addi $t0, $t0, 1
+    j    input_loop
+    
+input_exit:
+    li   $v0, 4
+    la   $a0, array_show
+    syscall
+    li   $v0, 4
+    la   $a0, end
+    syscall
+    
+array_loop:
+    # Duyet lui tu chi so 9 ve 0 (offset = i << 2)
+    sll  $s0, $t1, 2
+    la   $a0, array
+    add  $s1, $a0, $s0
+    lw   $t2, 0($s1)
+    
+    li   $v0, 1
+    move $a0, $t2
+    syscall
+    
+    beqz $t1, array_exit
+    subi $t1, $t1, 1
+    
+    li   $v0, 4
+    la   $a0, comma
+    syscall
+    j    array_loop
+    
+array_exit:
+    li   $v0, 10
+    syscall
+\end{lstlisting}
+
+\subsection{Kết quả thực thi}
+\begin{outputbox}
+\texttt{Please input element 0: 1}\\
+\texttt{Please input element 1: 2}\\
+\texttt{Please input element 2: 5}\\
+\texttt{Please input element 3: 8}\\
+\texttt{Please input element 4: 12}\\
+\texttt{Please input element 5: 44}\\
+\texttt{Please input element 6: 3}\\
+\texttt{Please input element 7: 9}\\
+\texttt{Please input element 8: 0}\\
+\texttt{Please input element 9: 10}\\
+\texttt{The predetermined array contains: 10, 0, 9, 3, 44, 12, 8, 5, 2, 1}
+\end{outputbox}
+
+\pagebreak
+
+% ==========================================
+% EXERCISE 6
+% ==========================================
+\section{Exercise 6}
+
+\begin{problembox}{Exercise 6}
+The color display system configuration as below:
+\begin{itemize}
+    \item Each color is represented 8-bit, each pixel consists of 3 colors (red, green, blue).
+    \item Resolution $1280 \times 1024$.
+\end{itemize}
+\begin{enumerate}[label=\textbf{\alph*.}]
+    \item Determine the minimum capacity of each frame.
+    \item Determine the time to transmit that frame when knowing the network speed is $100\text{ Mbit/s}$.
+\end{enumerate}
+\end{problembox}
+
+\subsection{Bài giải chi tiết}
+
+\subsubsection*{Câu a: Xác định dung lượng tối thiểu của mỗi khung hình}
+\begin{enumerate}
+    \item \textbf{Số bit trên mỗi điểm ảnh (pixel):}
+    Mỗi pixel gồm 3 màu (R, G, B), mỗi màu biểu diễn bằng 8 bits:
+    \begin{equation*}
+        \text{Bit/pixel} = 3 \times 8 = 24\text{ bits} = 3\text{ Bytes/pixel}
+    \end{equation*}
+    \item \textbf{Tổng số điểm ảnh (pixels) của màn hình $1280 \times 1024$:}
+    \begin{equation*}
+        N_{\text{pixels}} = 1280 \times 1024 = 1{,}310{,}720\text{ pixels}
+    \end{equation*}
+    \item \textbf{Dung lượng tối thiểu của khung hình (Frame Capacity):}
+    \begin{itemize}
+        \item Theo đơn vị bit:
+        \begin{equation*}
+            C_{\text{bits}} = 1{,}310{,}720 \times 24 = \mathbf{31{,}457{,}280\text{ bits}}
+        \end{equation*}
+        \item Theo đơn vị Byte:
+        \begin{equation*}
+            C_{\text{Bytes}} = \frac{31{,}457{,}280}{8} = \mathbf{3{,}932{,}160\text{ Bytes}}
+        \end{equation*}
+        \item Theo chuẩn nhị phân (IEC: KiB, MiB):
+        \begin{equation*}
+            C_{\text{MiB}} = \frac{3{,}932{,}160}{1024 \times 1024} = \mathbf{3.75\text{ MiB}} \quad (3{,}840\text{ KiB})
+        \end{equation*}
+        \item Theo chuẩn thập phân (SI: MB):
+        \begin{equation*}
+            C_{\text{MB}} = \frac{3{,}932{,}160}{10^6} \approx \mathbf{3.932\text{ MB}}
+        \end{equation*}
+    \end{itemize}
+\end{enumerate}
+
+\subsubsection*{Câu b: Xác định thời gian truyền tải khung hình qua mạng $100\text{ Mbit/s}$}
+\begin{enumerate}
+    \item \textbf{Công thức tính thời gian truyền tải:}
+    \begin{equation*}
+        T = \frac{\text{Dung lượng khung hình (bits)}}{\text{Tốc độ mạng (bits/s)}}
+    \end{equation*}
+    \item \textbf{Thế số với tốc độ mạng chuẩn viễn thông ($100\text{ Mbit/s} = 100 \times 10^6\text{ bits/s}$):}
+    \begin{equation*}
+        T = \frac{31{,}457{,}280\text{ bits}}{100 \times 10^6\text{ bits/s}} = \mathbf{0.3145728\text{ s}} \approx \mathbf{314.57\text{ ms}}
+    \end{equation*}
+    \textit{Ghi chú:} Nếu quy ước theo cơ số nhị phân ($100\text{ Mbit/s} = 100 \times 2^{20}\text{ bits/s}$):
+    \begin{equation*}
+        T' = \frac{31{,}457{,}280}{104{,}857{,}600} \approx \mathbf{0.3000\text{ s}} = \mathbf{300\text{ ms}}
+    \end{equation*}
+\end{enumerate}
+
+\subsection{Đáp số}
+\begin{answerbox}
+\begin{itemize}[leftmargin=1.0cm]
+    \item \textbf{Câu a (Dung lượng khung hình):}
+    \begin{itemize}
+        \item \textbf{31,457,280 bits}
+        \item \textbf{3,932,160 Bytes}
+        \item \textbf{3.75 MiB} (hoặc xấp xỉ \textbf{3.932 MB})
+    \end{itemize}
+    \item \textbf{Câu b (Thời gian truyền tải):}
+    \begin{itemize}
+        \item \textbf{0.31457 giây} (xấp xỉ \textbf{314.57 mili-giây}) với tốc độ $10^8\text{ bit/s}$.
+    \end{itemize}
+\end{itemize}
+\end{answerbox}
+
+\pagebreak
+
+% ==========================================
+% EXERCISE 7
+% ==========================================
+\section{Exercise 7}
+
+\begin{problembox}{Exercise 7}
+Three processors executing the same instruction set with the following frequencies and CPIs:
+\begin{itemize}
+    \item Processor $P_1$: Clock Rate $3\text{ GHz}$, CPI $1.5$
+    \item Processor $P_2$: Clock Rate $2.5\text{ GHz}$, CPI $1.0$
+    \item Processor $P_3$: Clock Rate $4\text{ GHz}$, CPI $2.2$
+\end{itemize}
+\begin{enumerate}[label=\textbf{\alph*.}]
+    \item Which processor has the highest performance in terms of instructions per second (IPS)?
+    \item If a processor executes a program in 10 seconds, find the number of instructions and the total number of cycles executed.
+    \item If the execution time of the program is reduced by 30 percent, the CPI increases by 20 percent. What is the system frequency to achieve that time?
+\end{enumerate}
+\end{problembox}
+
+\subsection{Bài giải chi tiết}
+
+\subsubsection*{Câu a: So sánh hiệu năng theo chỉ số IPS (Instructions Per Second)}
+Công thức tính số lệnh thực thi trên mỗi giây:
+\begin{equation*}
+    \text{IPS} = \frac{\text{Clock Rate}}{\text{CPI}} = \frac{f}{\text{CPI}}
+\end{equation*}
+Tính toán chỉ số IPS cho từng vi xử lý:
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Bộ xử lý $P_1$:}
+    \begin{equation*}
+        \text{IPS}(P_1) = \frac{3 \times 10^9}{1.5} = \mathbf{2.0 \times 10^9\text{ lệnh/s}} \quad (2000\text{ MIPS})
+    \end{equation*}
+    \item \textbf{Bộ xử lý $P_2$:}
+    \begin{equation*}
+        \text{IPS}(P_2) = \frac{2.5 \times 10^9}{1.0} = \mathbf{2.5 \times 10^9\text{ lệnh/s}} \quad (2500\text{ MIPS})
+    \end{equation*}
+    \item \textbf{Bộ xử lý $P_3$:}
+    \begin{equation*}
+        \text{IPS}(P_3) = \frac{4 \times 10^9}{2.2} \approx \mathbf{1.8182 \times 10^9\text{ lệnh/s}} \quad (1818.18\text{ MIPS})
+    \end{equation*}
+\end{itemize}
+
+\begin{table}[H]
+    \centering
+    \caption{Bảng so sánh chỉ số IPS của 3 bộ vi xử lý}
+    \label{tab:ips_summary}
+    \begin{tabular}{|c|c|c|c|c|}
+        \hline
+        \textbf{Bộ xử lý} & \textbf{Tần số ($f$)} & \textbf{CPI} & \textbf{IPS (lệnh/s)} & \textbf{Xếp hạng} \\
+        \hline
+        $P_1$ & $3.0\text{ GHz}$ & $1.5$ & $2.00 \times 10^9$ ($2000$ MIPS) & Hạng 2 \\
+        \hline
+        $P_2$ & $2.5\text{ GHz}$ & $1.0$ & $\mathbf{2.50 \times 10^9}$ ($\mathbf{2500}$ MIPS) & \textbf{Hạng 1 (Cao nhất)} \\
+        \hline
+        $P_3$ & $4.0\text{ GHz}$ & $2.2$ & $1.82 \times 10^9$ ($1818.18$ MIPS) & Hạng 3 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\noindent $\implies$ Bộ xử lý \textbf{$P_2$} có hiệu năng cao nhất theo tiêu chí IPS.
+
+\subsubsection*{Câu b: Tính số lượng lệnh ($IC$) và số chu kỳ khi thực thi trong 10 giây}
+Với thời gian thực thi $T = 10\text{ giây}$:
+\begin{align*}
+    \text{Cycles} &= f \times T \\
+    IC &= \frac{\text{Cycles}}{\text{CPI}} = \text{IPS} \times T
+\end{align*}
+Tính toán cụ thể cho từng bộ vi xử lý:
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Bộ xử lý $P_1$:}
+    \begin{itemize}
+        \item $\text{Cycles}(P_1) = 3 \times 10^9 \times 10 = \mathbf{3.0 \times 10^{10}\text{ chu kỳ}}$.
+        \item $IC(P_1) = \frac{3.0 \times 10^{10}}{1.5} = \mathbf{2.0 \times 10^{10}\text{ lệnh}}$.
+    \end{itemize}
+    \item \textbf{Bộ xử lý $P_2$:}
+    \begin{itemize}
+        \item $\text{Cycles}(P_2) = 2.5 \times 10^9 \times 10 = \mathbf{2.5 \times 10^{10}\text{ chu kỳ}}$.
+        \item $IC(P_2) = \frac{2.5 \times 10^{10}}{1.0} = \mathbf{2.5 \times 10^{10}\text{ lệnh}}$.
+    \end{itemize}
+    \item \textbf{Bộ xử lý $P_3$:}
+    \begin{itemize}
+        \item $\text{Cycles}(P_3) = 4 \times 10^9 \times 10 = \mathbf{4.0 \times 10^{10}\text{ chu kỳ}}$.
+        \item $IC(P_3) = \frac{4.0 \times 10^{10}}{2.2} \approx \mathbf{1.8182 \times 10^{10}\text{ lệnh}}$.
+    \end{itemize}
+\end{itemize}
+
+\begin{table}[H]
+    \centering
+    \caption{Số lệnh ($IC$) và số chu kỳ thực thi trong 10 giây}
+    \label{tab:cycles_summary}
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+        \textbf{Bộ xử lý} & \textbf{Thời gian ($T$)} & \textbf{Tổng số chu kỳ (Cycles)} & \textbf{Số lượng lệnh ($IC$)} \\
+        \hline
+        $P_1$ & $10\text{ s}$ & $3.0 \times 10^{10}\text{ chu kỳ}$ & $2.0 \times 10^{10}\text{ lệnh}$ \\
+        \hline
+        $P_2$ & $10\text{ s}$ & $2.5 \times 10^{10}\text{ chu kỳ}$ & $2.5 \times 10^{10}\text{ lệnh}$ \\
+        \hline
+        $P_3$ & $10\text{ s}$ & $4.0 \times 10^{10}\text{ chu kỳ}$ & $1.8182 \times 10^{10}\text{ lệnh}$ \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsubsection*{Câu c: Tần số xung nhịp yêu cầu khi thay đổi thời gian và CPI}
+Giả sử chương trình có khối lượng lệnh không đổi ($IC = \text{const}$).\\
+Theo công thức cơ bản: $T = \frac{IC \times \text{CPI}}{f} \implies f = \frac{IC \times \text{CPI}}{T}$.\\
+Khi thời gian giảm $30\%$ và CPI tăng $20\%$:
+\begin{align*}
+    T_{\text{new}} &= T_{\text{old}} \times (1 - 0.30) = 0.7 \times T_{\text{old}} \\
+    \text{CPI}_{\text{new}} &= \text{CPI}_{\text{old}} \times (1 + 0.20) = 1.2 \times \text{CPI}_{\text{old}}
+\end{align*}
+Tần số xung nhịp mới cần đạt là:
+\begin{align*}
+    f_{\text{new}} &= \frac{IC \times \text{CPI}_{\text{new}}}{T_{\text{new}}} = \frac{IC \times (1.2 \times \text{CPI}_{\text{old}})}{0.7 \times T_{\text{old}}} \\
+    &= \frac{1.2}{0.7} \times \frac{IC \times \text{CPI}_{\text{old}}}{T_{\text{old}}} = \mathbf{\frac{12}{7} \times f_{\text{old}}} \approx \mathbf{1.7143 \times f_{\text{old}}}
+\end{align*}
+$\implies$ Tần số xung nhịp của hệ thống phải tăng gấp $\frac{12}{7} \approx 1.714$ lần (tương ứng mức tăng $\mathbf{71.43\%}$).
+
+Cụ thể cho từng bộ vi xử lý:
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Đối với $P_1$ ($f_{\text{old}} = 3\text{ GHz}$):}
+    \begin{equation*}
+        f_{1,\text{new}} = \frac{12}{7} \times 3\text{ GHz} = \frac{36}{7}\text{ GHz} \approx \mathbf{5.143\text{ GHz}}
+    \end{equation*}
+    \item \textbf{Đối với $P_2$ ($f_{\text{old}} = 2.5\text{ GHz}$):}
+    \begin{equation*}
+        f_{2,\text{new}} = \frac{12}{7} \times 2.5\text{ GHz} = \frac{30}{7}\text{ GHz} \approx \mathbf{4.286\text{ GHz}}
+    \end{equation*}
+    \item \textbf{Đối với $P_3$ ($f_{\text{old}} = 4\text{ GHz}$):}
+    \begin{equation*}
+        f_{3,\text{new}} = \frac{12}{7} \times 4\text{ GHz} = \frac{48}{7}\text{ GHz} \approx \mathbf{6.857\text{ GHz}}
+    \end{equation*}
+\end{itemize}
+
+\subsection{Đáp số}
+\begin{answerbox}
+\begin{itemize}[leftmargin=1.0cm]
+    \item \textbf{Câu a:} Bộ vi xử lý \textbf{$P_2$} có hiệu năng cao nhất với $\mathbf{\text{IPS} = 2.5 \times 10^9\text{ lệnh/giây}}$ ($2500$ MIPS).
+    \item \textbf{Câu b (trong 10 giây):}
+    \begin{itemize}
+        \item $P_1$: $\mathbf{3.0 \times 10^{10}\text{ chu kỳ}}$, $\mathbf{2.0 \times 10^{10}\text{ lệnh}}$.
+        \item $P_2$: $\mathbf{2.5 \times 10^{10}\text{ chu kỳ}}$, $\mathbf{2.5 \times 10^{10}\text{ lệnh}}$.
+        \item $P_3$: $\mathbf{4.0 \times 10^{10}\text{ chu kỳ}}$, $\mathbf{1.8182 \times 10^{10}\text{ lệnh}}$.
+    \end{itemize}
+    \item \textbf{Câu c (Tần số hệ thống mới):}
+    \begin{itemize}
+        \item Quan hệ tổng quát: $f_{\text{new}} = \mathbf{\frac{12}{7} \times f_{\text{old}}} \approx \mathbf{1.7143 \times f_{\text{old}}}$ (tăng $\mathbf{71.43\%}$).
+        \item Với $P_1$: $\approx \mathbf{5.143\text{ GHz}}$.
+        \item Với $P_2$: $\approx \mathbf{4.286\text{ GHz}}$.
+        \item Với $P_3$: $\approx \mathbf{6.857\text{ GHz}}$.
+    \end{itemize}
+\end{itemize}
+\end{answerbox}
+
+\end{document}
