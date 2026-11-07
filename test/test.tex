@@ -1,85 +1,94 @@
-\documentclass[a4paper]{article}
-
-% =================================================
-%               USEPACKAGE
-% =================================================
-\usepackage[utf8]{vietnam} % Hỗ trợ tiếng Việt
-\usepackage{amsmath} % Hỗ trợ Toán học
-\usepackage{xcolor} % Hỗ trợ màu sắc
-\usepackage{fontspec} % Hỗ trợ font chữ
-\setmainfont{Times New Roman}
-\usepackage[12pt]{fontsize}
-\usepackage{setspace}
-\setstretch{1.5}
-\setlength{\parship}{2}
-\usepackage[
-    vmargin = 2cm
-    hmargin = 2cm
-]{geometry}
-
-\title{Đồ án lý thuyết WLAN}
-\author{Nhóm 06}
-\date{10/11/2026}
+\documentclass[a4paper, 12pt]{article}
+\usepackage{vntex} % Hỗ trợ tiếng Việt
+\usepackage[vmargin = 2cm, hmargin = 2cm]{geometry} % Căn lề
+\usepackage{graphicx} % Hỗ trợ chèn hình ảnh/logo
+\usepackage{tikz} % Vẽ khung viền trang bìa
+\usepackage{xcolor} % Khai báo màu theo mã RGB
+\usepackage[hidelinks]{hyperref} % Tạo liên kết có thể nhấp trong mục lục
+\definecolor{borderblue}{RGB}{4, 57, 110}
+\usetikzlibrary{calc}
 
 \begin{document}
 
-\maketitle
+% =================================================
+%                  TRANG BÌA
+% =================================================
+\begin{titlepage}
+
+    \begin{tikzpicture}[remember picture, overlay]
+        % Vẽ khung viền đôi trang bìa.
+        \draw[line width = 1.5pt, draw = borderblue] 
+            ($(current page.north west) + (1.0cm,-1.0cm)$) rectangle 
+            ($(current page.south east) + (-1.0cm,1.0cm)$);
+        \draw[line width = 0.5pt, draw = borderblue]
+            ($(current page.north west) + (1.1cm,-1.1cm)$) rectangle 
+            ($(current page.south east) + (-1.1cm,1.1cm)$);
+    \end{tikzpicture}
+
+    \centering
+
+    % 01. Thông tin trường và khoa.
+    {\fontsize{14}{10}\selectfont \textbf{ĐẠI HỌC QUỐC GIA THÀNH PHỐ HỒ CHÍ MINH}}\\[0.2cm]
+    {\fontsize{14}{10}\selectfont \textbf{TRƯỜNG ĐẠI HỌC KHOA HỌC TỰ NHIÊN}}\\[0.2cm]
+    {\fontsize{14}{10}\selectfont \textbf{KHOA CÔNG NGHỆ THÔNG TIN}}\\[0.2cm]
+    \rule{0.5\textwidth}{0.4pt} \\[0.2cm]
+
+    % 02. Logo trường.
+    \includegraphics[width=0.35\textwidth]{logo.png}\\[0.5cm]
+
+    % 03. Môn học và tên đồ án.
+    {\fontsize{14}{10}\selectfont \textbf{MÔN HỌC: MẠNG MÁY TÍNH}}\\[0.2cm]
+    {\fontsize{20}{10}\selectfont \textbf{BÁO CÁO ĐỒ ÁN LÝ THUYẾT WLAN}}\\[2.5cm]
+
+    % 04. Thông tin giảng viên và nhóm thực hiện.
+    \begin{minipage}{0.85\textwidth}
+        \begin{tabular}{ll}
+            \textbf{Giảng viên hướng dẫn:} & Huỳnh Thụy Bảo Trân \\[0.3cm]
+            \textbf{Nhóm thực hiện:}       & Nhóm 06 \\[0.3cm]
+            \textbf{Sinh viên thực hiện:}  & Huỳnh Thị Ngọc Quyên (Nhóm trưởng)\\ [0.3cm]
+                                           & Nguyễn Hoàng Quân\\ [0.3cm]
+                                           & Văn Thành Phát\\ [0.3cm]
+                                           & Nguyễn Hoàng Diễm Trang\\ [0.3cm]
+                                           & Ma Thị Ngọc Diễm\\ [0.3cm]
+                                           & Trương Huỳnh Như\\ [0.3cm]
+        \end{tabular}
+    \end{minipage}
+
+    \vfill % Đẩy phần ngày tháng xuống đáy trang
+
+    % 05. Địa điểm và thời gian.
+    {\fontsize{12}{10}\selectfont Thành phố Hồ Chí Minh, ngày 10/11/2026.}
+\end{titlepage}
+
+% =================================================
+%              NỘI DUNG ĐỒ ÁN
+% =================================================
+\clearpage
+\pagenumbering{roman}
+\renewcommand{\contentsname}{\hfil MỤC LỤC \hfil}
+\tableofcontents % Tự động tạo mục lục có liên kết
+\clearpage
+\pagenumbering{arabic} % Bắt đầu đánh số trang nội dung từ đây
 
 \section{Giới thiệu}
-Viết công thức toán inline: $E = mc^2$.
-
-Viết toán hiển thị riêng trên một dòng: $$E = mc^2 $$
-\begin{equation}
-    ax^2 + bx + c = 0
-\end{equation}
-
-Dòng thứ nhất.
-
-Dòng thứ hai cách dòng thứ nhất 10pt.
-
-Trong Lập trình hướng đối tượng, khi một lớp kế thừa từ lớp cơ sở, một đối tượng của lớp thừa kế đó có thể
-được tham chiếu đến thông qua một con trỏ hay tham chiếu của kiểu lớp cha thay vì kiểu của lớp thừa kế đó.
-Nếu có phương thức nào của lớp cơ sở bị ghi đè bởi lớp thừa kế, phương thức thực sự được gọi bằng một tham
-chiếu hay con trỏ có thể được liên kết “sớm” (bởi trình biên dịch) theo như kiểu định nghĩa của con trỏ hay
-tham chiếu, hay “trễ” (ví dụ như bởi hệ thống thời gian chạy của ngôn ngữ) theo như kiểu thực sự của đối
-tượng được tham chiếu tới.
-
-Hàm ảo giải quyết trường hợp “trễ”. Nếu hàm được gọi là “ảo” trong lớp cơ sở, sự hiện thực của hàm trong
-lớp thừa kế nhiều nhất được gọi tùy theo kiểu thực sự mà đối tượng đó tham chiếu tới, bất kể kiểu khai báo
-của con trỏ hay tham chiếu. Nếu đó không phải là “ảo”, phương thức sẽ được giải quyết “sớm” và hàm gọi
-được chọn tùy theo kiểu khai báo của con trỏ hay tham chiếu. Hàm ảo cho phép chương trình gọi tới những
-phương thức không nhất thiết phải tồn tại vào thời điểm biên dịch mã.
-
-Trong Lập trình hướng đối tượng, khi một lớp kế thừa từ lớp cơ sở, một đối tượng của lớp thừa kế đó có thể
-được tham chiếu đến thông qua một con trỏ hay tham chiếu của kiểu lớp cha thay vì kiểu của lớp thừa kế đó.
-Nếu có phương thức nào của lớp cơ sở bị ghi đè bởi lớp thừa kế, phương thức thực sự được gọi bằng một tham
-chiếu hay con trỏ có thể được liên kết “sớm” (bởi trình biên dịch) theo như kiểu định nghĩa của con trỏ hay
-tham chiếu, hay “trễ” (ví dụ như bởi hệ thống thời gian chạy của ngôn ngữ) theo như kiểu thực sự của đối
-tượng được tham chiếu tới.
-
-Hàm ảo giải quyết trường hợp “trễ”. Nếu hàm được gọi là “ảo” trong lớp cơ sở, sự hiện thực của hàm trong
-lớp thừa kế nhiều nhất được gọi tùy theo kiểu thực sự mà đối tượng đó tham chiếu tới, bất kể kiểu khai báo
-của con trỏ hay tham chiếu. Nếu đó không phải là “ảo”, phương thức sẽ được giải quyết “sớm” và hàm gọi
-được chọn tùy theo kiểu khai báo của con trỏ hay tham chiếu. Hàm ảo cho phép chương trình gọi tới những
-phương thức không nhất thiết phải tồn tại vào thời điểm biên dịch mã.
-
-\subsection{Albert Einstein}
-\begin{itemize}
-    \item Mục 1
-    \item Mục 2
-    \item Mục 3
-\end{itemize}
-
-\begin{enumerate}
-    \item Mục thứ nhất
-    \item Mục thứ hai
-    \item Mục thứ ba
-\end{enumerate}
-
-\section{Phân công nhiệm vụ}
-\textbf{Huỳnh Thị Ngọc Quyên}
-\textit{Nguyễn Hoàng Quân}
-\underline{Nguyễn Hoàng Diễm Trang}
-\color{red}{Ma Thị Ngọc Diễm}
+Nội dung bài làm bắt đầu từ trang này...
+\section{Giới thiệu}
+Nội dung bài làm bắt đầu từ trang này...
+\section{Giới thiệu}
+Nội dung bài làm bắt đầu từ trang này...
+\section{Giới thiệu}
+Nội dung bài làm bắt đầu từ trang này...
+\section{Giới thiệu}
+Nội dung bài làm bắt đầu từ trang này...
+\section{Giới thiệu}
+Nội dung bài làm bắt đầu từ trang này...
+\section{Giới thiệu}
+Nội dung bài làm bắt đầu từ trang này...
+\section{Giới thiệu}
+Nội dung bài làm bắt đầu từ trang này...
+\section{Giới thiệu}
+Nội dung bài làm bắt đầu từ trang này...
+\section{Giới thiệu}
+Nội dung bài làm bắt đầu từ trang này...
 
 \end{document}
