@@ -1,0 +1,47 @@
+\begin{titlepage}
+
+    \begin{tikzpicture}[remember picture, overlay]
+        % Vẽ khung viền đôi trang bìa.
+        \draw[line width = 1.5pt, draw = borderblue]
+            ($(current page.north west) + (1.0cm,-1.0cm)$) rectangle 
+            ($(current page.south east) + (-1.0cm,1.0cm)$);
+        \draw[line width = 0.5pt, draw = borderblue]
+            ($(current page.north west) + (1.1cm,-1.1cm)$) rectangle 
+            ($(current page.south east) + (-1.1cm,1.1cm)$);
+    \end{tikzpicture}
+
+    \centering
+
+    % 01. Thông tin trường và khoa.
+    {\fontsize{14}{10}\selectfont \textbf{ĐẠI HỌC QUỐC GIA THÀNH PHỐ HỒ CHÍ MINH}}\\[0.2cm]
+    {\fontsize{14}{10}\selectfont \textbf{TRƯỜNG ĐẠI HỌC KHOA HỌC TỰ NHIÊN}}\\[0.2cm]
+    {\fontsize{14}{10}\selectfont \textbf{KHOA CÔNG NGHỆ THÔNG TIN}}\\[0.2cm]
+    \rule{0.5\textwidth}{0.4pt} \\[0.2cm]
+
+    % 02. Logo trường.
+    \includegraphics[width=0.35\textwidth]{images/logo.png}\\[0.5cm]
+
+    % 03. Môn học và tên đồ án.
+    {\fontsize{14}{10}\selectfont \textbf{MÔN HỌC: PHƯƠNG PHÁP LẬP TRÌNH HƯỚNG ĐỐI TƯỢNG}}\\[0.2cm]
+    {\fontsize{20}{10}\selectfont \textbf{BÀI TẬP LÝ THUYẾT NHÓM TUẦN 06}}\\[1.5cm]
+
+    % 04. Thông tin giảng viên và nhóm thực hiện.
+    \begin{minipage}{0.75\textwidth}
+        \begin{center}
+            \begin{tabular}{lcl}
+                	\textbf{Giảng viên}     & : & Hồ Tuấn Thanh\\[0.3cm]
+                	\textbf{Nhóm thực hiện} & : & Nhóm SOLID5\\[0.3cm]
+                	\textbf{Thành viên 01}  & : & Nguyễn Hoàng Quân (Nhóm trưởng)\\[0.3cm]
+                	\textbf{Thành viên 02}  & : & Văn Thành Phát\\[0.3cm]
+                	\textbf{Thành viên 03}  & : & Võ Ngọc Linh\\[0.3cm]
+                	\textbf{Thành viên 04}  & : & Lê Nguyễn Như Quỳnh\\[0.3cm]
+                	\textbf{Thành viên 05}  & : & Trương Huỳnh Như\\[0.3cm]
+            \end{tabular}
+        \end{center}
+    \end{minipage}
+
+    \vfill % Đẩy phần ngày tháng xuống đáy trang
+
+    % 05. Địa điểm và thời gian.
+    {\fontsize{12}{10}\selectfont Thành phố Hồ Chí Minh, ngày 24/11/2026.}
+\end{titlepage}

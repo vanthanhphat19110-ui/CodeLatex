@@ -1,21 +1,44 @@
 \usepackage[utf8]{vietnam}
 \usepackage[vietnamese]{babel}
-
 \usepackage[vmargin = 1.5cm, hmargin = 1.5cm]{geometry} % Căn lề.
 \usepackage{setspace} % Chỉnh độ giãn dòng.
 \usepackage{graphicx} % Hỗ trợ chèn hình ảnh.
 \usepackage{tikz} % Vẽ khung viền trang bìa.
+\usetikzlibrary{calc}
 \usepackage{xcolor} % Khai báo màu theo mã RGB.
-\usepackage[hidelinks]{hyperref} % Tạo liên kết có thể nhấp trong mục lục.
 \usepackage{tabularx, booktabs} % Tạo bảng.
 \usepackage{listings} % Trình bày code đẹp và chuẩn.
 \usepackage{array}
+\usepackage{enumitem}
 
-% Hiển thị đánh số và mục lục đến cấp 4 (paragraph)
-\setcounter{secnumdepth}{4}
-\setcounter{tocdepth}{4}
+% Gói quản lý tài liệu tham khảo chuẩn hiện đại.
+\usepackage[backend = biber, style = ieee]{biblatex}
 
-% Cấu hình khung hiển thị code C++
+% Bỏ qua cảnh báo mã hóa T5 của csquotes; tiếng Việt vẫn theo cấu hình dấu ngoặc bên dưới.
+\usepackage{silence}
+\WarningFilter{csquotes}{No space factor codes}
+
+% Hỗ trợ trích dẫn và xử lý dấu ngoặc trích dẫn cho biblatex.
+\usepackage{csquotes}
+
+% Sử dụng kiểu dấu ngoặc tiếng Anh cho ngôn ngữ vietnamese (không có kiểu riêng trong csquotes).
+\DeclareQuoteAlias{english}{vietnamese}
+
+\DeclareLanguageMapping{vietnamese}{english}
+\addbibresource{references.bib}
+
+% Gói xử lý ngắt dòng URL đẹp mắt và tạo link bấm được.
+\usepackage{xurl}
+\usepackage[hidelinks]{hyperref}
+
+% Cấu hình khung đường viền.
+\definecolor{borderblue}{rgb}{0.04,0.15,0.57}
+
+% Hiển thị đánh số và mục lục đến cấp 03.
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+
+% Cấu hình khung hiển thị code C++.
 \definecolor{codebg}{rgb}{0.96,0.96,0.98}
 \definecolor{commentgreen}{rgb}{0.1,0.5,0.2}
 \definecolor{keywordblue}{rgb}{0.0,0.2,0.7}
