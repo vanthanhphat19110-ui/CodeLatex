@@ -10,6 +10,7 @@
 \usepackage{listings} % Trình bày code đẹp và chuẩn.
 \usepackage{array}
 \usepackage{enumitem}
+\usepackage{ragged2e}
 
 % Gói quản lý tài liệu tham khảo chuẩn hiện đại.
 \usepackage[backend = biber, style = ieee]{biblatex}
@@ -60,4 +61,21 @@
     breaklines = true,
     tabsize = 4,
     showstringspaces = false
+}
+
+% Định nghĩa kiểu cột căn giữa theo chiều dọc và tự xuống dòng.
+\newcolumntype{C}[1]{>{\Centering\arraybackslash}m{#1}}
+
+% Cột X căn giữa theo chiều dọc cho phần Nhiệm vụ.
+\renewcommand{\tabularxcolumn}[1]{>{\RaggedRight\arraybackslash}m{#1}}
+
+% Tạo môi trường danh sách riêng cho bảng để loại bỏ khoảng trắng thừa trên/dưới.
+\newlist{tabitemize}{itemize}{1}
+\setlist[tabitemize]{
+    label = \textbullet,
+    leftmargin = 1.25em,
+    itemsep = 1.5pt,
+    parsep = 0pt,
+    topsep = 4.5pt,
+    partopsep = 0pt
 }
