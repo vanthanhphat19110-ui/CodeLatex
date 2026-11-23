@@ -1,0 +1,32 @@
+\documentclass[a4paper, 12pt]{article}
+
+% Nạp toàn bộ cấu hình.
+\input{packages}
+
+\begin{document}
+
+    % 01. Trang bìa.
+    \include{chapters/cover}
+    
+    \onehalfspacing
+
+    % 02. Mục lục tự động.
+    \tableofcontents
+    \newpage
+
+    % 03. Nội dung 03 câu.
+    \include{chapters/cau01}
+    \include{chapters/cau02}
+    \include{chapters/cau03}
+
+    % 04. Bảng phân công nhiệm vụ.
+    \include{chapters/tasktable}
+
+    % 05. Phụ lục trích dẫn.
+    \newpage
+    \addcontentsline{toc}{section}{Tài liệu tham khảo}
+    \nocite{*}
+    \bibliographystyle{plain}
+    \bibliography{references}
+
+\end{document}

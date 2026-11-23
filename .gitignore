@@ -7,3 +7,6 @@
 *.synctex(busy)
 *.toc
 *.out
+*.bbl
+*.blg
+*.exe

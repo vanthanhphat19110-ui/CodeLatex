@@ -1,0 +1,39 @@
+\usepackage[utf8]{vietnam}
+\usepackage[vietnamese]{babel}
+
+\usepackage[vmargin = 1.5cm, hmargin = 1.5cm]{geometry} % Căn lề.
+\usepackage{setspace} % Chỉnh độ giãn dòng.
+\usepackage{graphicx} % Hỗ trợ chèn hình ảnh.
+\usepackage{tikz} % Vẽ khung viền trang bìa.
+\usepackage{xcolor} % Khai báo màu theo mã RGB.
+\usepackage[hidelinks]{hyperref} % Tạo liên kết có thể nhấp trong mục lục.
+\usepackage{tabularx, booktabs} % Tạo bảng.
+\usepackage{listings} % Trình bày code đẹp và chuẩn.
+
+% Hiển thị đánh số và mục lục đến cấp 4 (paragraph)
+\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{4}
+
+% Cấu hình khung hiển thị code C++
+\definecolor{codebg}{rgb}{0.96,0.96,0.98}
+\definecolor{commentgreen}{rgb}{0.1,0.5,0.2}
+\definecolor{keywordblue}{rgb}{0.0,0.2,0.7}
+\definecolor{stringstyledarkred}{rgb}{0.68,0.05,0.05}
+
+\lstset{
+    language = C++,
+    backgroundcolor = \color{codebg},
+    basicstyle = \ttfamily\footnotesize,
+    keywordstyle = \color{keywordblue}\bfseries,
+    commentstyle = \color{commentgreen}\itshape,
+    stringstyle = \color{stringstyledarkred},
+    numbers = left,
+    numberstyle = \tiny\color{gray},
+    stepnumber = 1,
+    numbersep = 8pt,
+    frame = single,
+    rulecolor = \color{gray!40},
+    breaklines = true,
+    tabsize = 4,
+    showstringspaces = false
+}
