@@ -1,0 +1,69 @@
+\section{Tìm hiểu về function template và class template trong C++.}
+Trong C++, có hai loại template, đó là: function template và class template. 
+Template giúp lập trình viên định nghĩa tổng quát cho hàm và lớp, thay vì phải nạp chồng từng hàm có cùng logic nhưng chỉ khác kiểu dữ liệu của tham số truyền vào, 
+hoặc phải viết lại từng class có cùng cách tổ chức dữ liệu nhưng chỉ khác kiểu dữ liệu của các thuộc tính.
+Trình biên dịch sẽ tự động sinh ra mã cụ thể cho từng kiểu dữ liệu mỗi khi template đó được gọi.
+
+\subsection{Function template.}
+Function template được sử dụng khi ta cần định nghĩa một hàm có thể thực hiện cùng một logic trên nhiều kiểu dữ liệu khác nhau.
+Trình biên dịch sẽ tự động suy luận kiểu dữ liệu từ tham số truyền vào hàm mỗi khi function template được gọi.
+
+-- \textbf{Ví dụ minh họa:}
+\lstinputlisting{code/Cau02_Code01.cpp}
+
+-- \textbf{Giải thích:}
+\begin{itemize}
+    \item[$+$] Đầu tiên, ta định nghĩa hàm mySwap với kiểu dữ liệu tổng quát của hai tham số truyền vào đều là T. 
+               Hàm này thực hiện chức năng là hoán đổi giá trị của hai tham số a và b.
+    \item[$+$] Trong hàm main, ta lần lượt kiểm tra chức năng của hàm mySwap đối với các kiểu dữ liệu khác nhau là int, float, string. 
+               Đối với kiểu dữ liệu int, khi ta gọi mySwap(x, y), trong đó hai biến x và y đều có kiểu dữ liệu int, 
+               trình biên dịch sẽ tự động suy luận là kiểu dữ liệu tổng quát T (trong phần định nghĩa hàm mySwap) lúc này đang là int. 
+               Khi đó, trình biên dịch sẽ thực hiện logic của hàm mySwap với kiểu dữ liệu int. 
+               Kết quả là giá trị của hai biến x và y được hoán đổi cho nhau. 
+               Tương tự cho trường hợp của kiểu dữ liệu float và string.
+    \item[$+$] Ta thấy rằng việc sử dụng function template giúp code của chúng ta ngắn gọn hơn. 
+               Thay vì ta phải nạp chồng hàm mySwap cho từng kiểu dữ liệu int, float, string 
+               (viết tổng cộng ba hàm có cùng logic nhưng chỉ khác kiểu dữ liệu của tham số truyền vào), 
+               ta chỉ cần định nghĩa một hàm mySwap(T\& a, T\& b), với T là kiểu dữ liệu tổng quát sẽ thay đổi tùy thuộc vào kiểu dữ liệu của tham số mà ta truyền vào.
+    \item[$+$] Lưu ý rằng, T là tên tượng trưng của thuộc tính typename trong template, tức là ta hoàn toàn có thể đổi T thành bất kì tên nào mà chúng ta muốn.
+\end{itemize}
+
+\subsection{Class template.}
+Class template được sử dụng khi ta cần định nghĩa một lớp mà kiểu dữ liệu của các thuộc tính hoặc phương thức trong lớp được tham số hóa.
+Class template thường được ứng dụng để xây dựng các cấu trúc dữ liệu như mảng động, danh sách liên kết, stack, queue,\dots
+Thư viện chuẩn STL của C++ (ví dụ: std::vector, std::stack, std::queue,\dots) được xây dựng hoàn toàn dựa trên class template.
+
+-- \textbf{Ví dụ minh họa:}
+\lstinputlisting{code/Cau02_Code02.cpp}
+
+-- \textbf{Giải thích:}
+\begin{itemize}
+    \item[$+$] Đầu tiên, ta định nghĩa lớp MyPair với cặp kiểu dữ liệu tổng quát là T1 và T2. 
+               Lớp này có nhiệm vụ là lưu các giá trị thành từng cặp (first, second) và xuất ra màn hình thông qua hàm show().
+    \item[$+$] Trong hàm main, ta lần lượt kiểm tra chức năng của lớp MyPair đối với các cặp kiểu dữ liệu khác nhau là <string, string> và <string, double>. 
+               Đối với cặp kiểu dữ liệu <string, string>, khi ta khởi tạo đối tượng student với kiểu dữ liệu là MyPair<string, string>, 
+               trình biên dịch sẽ tự động suy luận là kiểu dữ liệu tổng quát T1, T2 (trong phần định nghĩa lớp MyPair) lần lượt là string, string. 
+               Khi đó, chương trình sẽ khởi tạo đối tượng student với thuộc tính first, second lần lượt là “Van Thanh Phat”, “25CTT4”. 
+               Kết quả là màn hình in ra cặp giá trị đã được lưu trong đối tượng student thông qua hàm show(). 
+               Tương tự cho trường hợp của cặp kiểu dữ liệu <string, double>.
+    \item[$+$] Để ý rằng, trong phần khai báo template của lớp MyPair, ta tách biệt rõ ràng typename T1 và typename T2, 
+               nghĩa là T1 và T2 có thể có kiểu dữ liệu giống nhau hoặc khác nhau.
+\end{itemize}
+
+\subsection{So sánh giữa function template và class template.}
+\begin{center}
+\renewcommand{\arraystretch}{1.6}
+\begin{tabular}{|>{\centering\arraybackslash}m{0.22\textwidth}|m{0.36\textwidth}|m{0.36\textwidth}|}
+    \hline
+    \textbf{Tiêu chí} & \multicolumn{1}{c|}{\textbf{Function template}} & \multicolumn{1}{c|}{\textbf{Class template}} \\
+    \hline
+    Mục đích & Tái sử dụng logic của một hàm cho nhiều kiểu dữ liệu khác nhau. & Tái sử dụng cấu trúc dữ liệu và hành vi của một lớp cho nhiều kiểu dữ liệu khác nhau. \\
+    \hline
+    Suy luận kiểu (Type deduction) & Trình biên dịch thường tự suy luận kiểu dữ liệu qua tham số truyền vào. & Bắt buộc phải chỉ định tường minh kiểu dữ liệu cụ thể trong cặp dấu < > để trình biên dịch sinh ra mã nguồn tương ứng cho lớp đó. \\
+    \hline
+    Tính chuyên biệt hóa (Specialization) & Hỗ trợ full specialization. & Hỗ trợ full specialization và partial specialization. \\
+    \hline
+    Ứng dụng & std::sort(), std::swap(), std::max(), std::min(),\dots & std::vector<T>, std::stack<T>, std::queue<T>, std::pair<T1, T2>, std::map<K, V>,\dots \\
+    \hline
+\end{tabular}
+\end{center}
